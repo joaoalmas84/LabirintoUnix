@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <stddef.h>
-#include <string.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <time.h>
@@ -11,9 +9,7 @@
 
 char RUNNING = 1;
 
-void termina(int sig, siginfo_t *info, void *ucontext) {
-   RUNNING = 0;
-}
+void termina(int sig, siginfo_t *info, void *ucontext);
 
 int main(int argc, char * argv[]) {
    int x, y, interval, duration;
@@ -40,4 +36,8 @@ int main(int argc, char * argv[]) {
       fflush(stdout);
    }
    return 0;
+}
+
+void termina(int sig, siginfo_t *info, void *ucontext) {
+   RUNNING = 0;
 }

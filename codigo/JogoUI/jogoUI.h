@@ -1,10 +1,7 @@
 #ifndef JOGOUI_H
 #define JOGOUI_H
 
-#include "utils.h"
-#include "structs.h"
-
-#include <ncurses.h>
+#include "../Util/structs.h"
 
 //*************************************************** COMANDOS *********************************************************
 

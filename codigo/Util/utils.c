@@ -1,9 +1,9 @@
-#include "utils.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
+#include "utils.h"
 
 // return 0 -> valido; 1 -> invalido; 2 -> falta argumentos; 3 -> excesso de argumentos;
 int validaComando(char* cmd, const int size, const char* cmdArray[], const int nArgCmd[], int *index) {

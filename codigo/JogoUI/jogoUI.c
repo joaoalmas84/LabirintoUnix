@@ -1,12 +1,13 @@
-#include "jogoUI.h"
-#include "structs.h"
-
 #include <string.h>
 #include <ctype.h>
 #include <ncurses.h>
 #include <unistd.h>
 #include <errno.h>
 #include <fcntl.h>
+
+#include "jogoUI.h"
+#include "../Util/structs.h"
+#include "../Util/utils.h"
 
 //*************************************************** COMANDOS *********************************************************
 
@@ -35,32 +36,40 @@ void executaComando_J(char *cmd, char *playerName, int index, WINDOW *jOutput, i
 int verificaMovimento(int position, LABIRINTO labirinto, int ch) {
     switch (ch) {
         case KEY_UP:
-            if ((position-40) < 0) {return 0;}
-            else if (labirinto.mapa[position-40] == 'x') {return 0;}
-            else if (labirinto.mapa[position-40] == 'P') {return 0;}
-            else if (labirinto.mapa[position-40] == 'B') {return 0;}
-            else {return 1;}
-            break;
+            if (position - 40 < 0) { return 0; }
+
+            if (labirinto.mapa[position - 40] == 'x') { return 0; }
+
+            if (labirinto.mapa[position - 40] == 'P') { return 0; }
+
+            if (labirinto.mapa[position - 40] == 'B') { return 0; }
+
+            return 1;
+
         case KEY_DOWN:
-            if ((position+40) >= MAP_SIZE) {return 0;}
-            else if (labirinto.mapa[position+40] == 'x') {return 0;}
-            else if (labirinto.mapa[position+40] == 'P') {return 0;}
-            else if (labirinto.mapa[position+40] == 'B') {return 0;}
-            else {return 1;}
-            break;
+            if (position + 40 >= MAP_SIZE) { return 0; }
+
+            if (labirinto.mapa[position + 40] == 'x') { return 0; }
+
+            if (labirinto.mapa[position + 40] == 'P') { return 0; }
+
+            if (labirinto.mapa[position + 40] == 'B') { return 0; }
+
+            return 1;
+
         case KEY_LEFT:
-            if (position <= 0) {return 0;}
-            else if (labirinto.mapa[position-1] == 'x') {return 0;}
-            else if (labirinto.mapa[position-1] == 'P') {return 0;}
-            else if (labirinto.mapa[position-1] == 'B') {return 0;}
-            else {return 1;}
+            if (position <= 0) { return 0; } else if (labirinto.mapa[position - 1] == 'x') { return 0; } else if (
+                labirinto.mapa[position - 1] == 'P') { return 0; } else if (labirinto.mapa[position - 1] == 'B') {
+                return 0;
+            } else { return 1; }
             break;
         case KEY_RIGHT:
-            if (position >= MAP_SIZE-1) {return 0;}
-            else if (labirinto.mapa[position+1] == 'x') {return 0;}
-            else if (labirinto.mapa[position+1] == 'P') {return 0;}
-            else if (labirinto.mapa[position+1] == 'B') {return 0;}
-            else {return 1;}
+            if (position >= MAP_SIZE - 1) { return 0; } else if (
+                labirinto.mapa[position + 1] == 'x') { return 0; } else if (labirinto.mapa[position + 1] == 'P') {
+                return 0;
+            } else if (labirinto.mapa[position + 1] == 'B') {
+                return 0;
+            } else { return 1; }
             break;
         default:
             return 0;
@@ -74,28 +83,28 @@ JOGO handleMovimento(int ch, JOGO jogo, int *position, char *playerName) {
     switch (ch) {
         case KEY_UP:
             if (verificaMovimento(*position, newJogo.labirinto, ch) == 1) {
-                newJogo.labirinto.mapa[*position] = ' ';  // Limpar a posição atual
+                newJogo.labirinto.mapa[*position] = ' '; // Limpar a posição atual
                 (*position) -= 40;
                 newJogo.labirinto.mapa[*position] = tolower(playerName[0]);
             }
             break;
         case KEY_DOWN:
             if (verificaMovimento(*position, newJogo.labirinto, ch) == 1) {
-                newJogo.labirinto.mapa[*position] = ' ';  // Limpar a posição atual
+                newJogo.labirinto.mapa[*position] = ' '; // Limpar a posição atual
                 (*position) += 40;
                 newJogo.labirinto.mapa[*position] = tolower(playerName[0]);
             }
             break;
         case KEY_LEFT:
             if (verificaMovimento(*position, newJogo.labirinto, ch) == 1) {
-                newJogo.labirinto.mapa[*position] = ' ';  // Limpar a posição atual
+                newJogo.labirinto.mapa[*position] = ' '; // Limpar a posição atual
                 (*position)--;
                 newJogo.labirinto.mapa[*position] = tolower(playerName[0]);
             }
             break;
         case KEY_RIGHT:
             if (verificaMovimento(*position, newJogo.labirinto, ch) == 1) {
-                newJogo.labirinto.mapa[*position] = ' ';  // Limpar a posição atual
+                newJogo.labirinto.mapa[*position] = ' '; // Limpar a posição atual
                 (*position)++;
                 newJogo.labirinto.mapa[*position] = tolower(playerName[0]);
             }
@@ -106,13 +115,13 @@ JOGO handleMovimento(int ch, JOGO jogo, int *position, char *playerName) {
 
 //*************************************************** PREENCHIMENTO DE ESTRUTURAS **************************************
 
-MSG preencheMsg(char *cmd, char* playerName) {
+MSG preencheMsg(char *cmd, char *playerName) {
     MSG msg;
     int i = 0, j = 0, k = 0;
 
     strcpy(msg.from, playerName);
 
-    while (!isspace(cmd[i])) {i++;}
+    while (!isspace(cmd[i])) { i++; }
 
     i++;
 
@@ -246,7 +255,7 @@ void enviaMSG_Request(const int fd, MSG_REQUEST msgRequest, WINDOW *jOutput) {
     }
 }
 
-void enviaF_MSG(const char* fifoCli, F_MSG f_msg, WINDOW *jOutput) {
+void enviaF_MSG(const char *fifoCli, F_MSG f_msg, WINDOW *jOutput) {
     int fd, nbytes;
 
     fd = open(fifoCli, O_WRONLY);
@@ -303,7 +312,8 @@ JOGO recebeJogo(const int fd, WINDOW *jOutput, WINDOW *jInfo, WINDOW *jMapa, int
         wprintw(jOutput, "\n<ERRO> '%s'", strerror(errno));
         wrefresh(jOutput);
     } else {
-        if (*nivelAnt != jogo.nivel) { //significa que mudou de nivel
+        if (*nivelAnt != jogo.nivel) {
+            //significa que mudou de nivel
             //atualiza nova posicao
             *pos = jogo.clientData.pos;
             *nivelAnt = jogo.nivel;
@@ -312,7 +322,8 @@ JOGO recebeJogo(const int fd, WINDOW *jOutput, WINDOW *jInfo, WINDOW *jMapa, int
         //wrefresh(jOutput);
         //wprintw(jOutput, "\nRecebi: JOGO (%d bytes)\n", nbytes);
         //wrefresh(jOutput);
-        wprintw(jInfo, "\nNivel: %d     Bloqueios: %d     Pedras: %d", jogo.nivel, jogo.labirinto.nBlocks, jogo.labirinto.nPedras);
+        wprintw(jInfo, "\nNivel: %d     Bloqueios: %d     Pedras: %d", jogo.nivel, jogo.labirinto.nBlocks,
+                jogo.labirinto.nPedras);
         wrefresh(jInfo);
     }
 
@@ -412,15 +423,15 @@ void recebeNotificacao(const int fd, WINDOW *jOutput) {
 void desenhaMoldura(int alt, int comp, int linha, int coluna) {
     --linha;
     --coluna;
-    alt+=2;
-    comp+=2;
+    alt += 2;
+    comp += 2;
     // desenha barras verticais laterais
-    for (int l=linha; l<=linha+alt-1; ++l) {
-        mvaddch(l, coluna, '|');            // MoVe para uma posição e ADDiciona um CHar lá
+    for (int l = linha; l <= linha + alt - 1; ++l) {
+        mvaddch(l, coluna, '|'); // MoVe para uma posição e ADDiciona um CHar lá
         mvaddch(l, coluna+comp-1, '|');
     }
     // desenha as barras horizontais
-    for (int c=coluna; c<=coluna+comp-1; ++c) {
+    for (int c = coluna; c <= coluna + comp - 1; ++c) {
         mvaddch(linha, c, '-');
         mvaddch(linha+alt-1, c, '-');
     }
@@ -428,6 +439,6 @@ void desenhaMoldura(int alt, int comp, int linha, int coluna) {
     mvaddch(linha, coluna, '+');
     mvaddch(linha, coluna+comp-1, '+');
     mvaddch(linha+alt-1, coluna, '+');
-    mvaddch(linha+alt-1,coluna+comp-1,'+');
+    mvaddch(linha+alt-1, coluna+comp-1, '+');
     refresh();
 }

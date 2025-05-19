@@ -1,8 +1,7 @@
 #ifndef MOTOR_H
 #define MOTOR_H
 
-#include "utils.h"
-#include "structs.h"
+#include "../Util/structs.h"
 
 #define BOT "bot"
 #define TAM 3

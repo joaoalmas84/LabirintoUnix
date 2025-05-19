@@ -1,28 +1,33 @@
-all: jogoUI motor
+all: bot jogoUI motor
 
-jogoUI: jogoUI.o utils.o jogoUI_main.o
-	gcc jogoUI.o utils.o jogoUI_main.o -o jogoUI -lncurses
+jogoUI: ObjectFiles/jogoUI.o ObjectFiles/jogoUI_main.o ObjectFiles/utils.o
+	gcc ObjectFiles/jogoUI.o ObjectFiles/jogoUI_main.o ObjectFiles/utils.o -o jogoUI -lncurses
 
-motor: motor.o utils.o motor_main.o
-	gcc motor.o utils.o motor_main.o -o motor -lpthread
-	gcc bot.o -o bot
+bot: ObjectFiles/bot.o ObjectFiles/motor_main.o ObjectFiles/utils.o
+	gcc ObjectFiles/bot.o -o bot
 
-jogoUI.o: jogoUI.c
-	gcc -c jogoUI.c
+motor: 	ObjectFiles/motor.o ObjectFiles/motor_main.o ObjectFiles/utils.o
+	gcc ObjectFiles/motor.o ObjectFiles/motor_main.o ObjectFiles/utils.o -o motor -lpthread
+	gcc ObjectFiles/bot.o -o bot
 
-motor.o: motor.c
-	gcc -c motor.c
+ObjectFiles/jogoUI.o: JogoUI/jogoUI.c
+	gcc -c JogoUI/jogoUI.c -o ObjectFiles/jogoUI.o
 
-utils.o: utils.c
-	gcc -c utils.c
+ObjectFiles/motor.o: Motor/motor.c
+	gcc -c Motor/motor.c -o ObjectFiles/motor.o
 
-motor_main.o: motor_main.c
-	gcc -c motor_main.c
-	gcc -c bot.c
+ObjectFiles/utils.o: Util/utils.c
+	gcc -c Util/utils.c -o ObjectFiles/utils.o
 
-jogoUI_main.o: jogoUI_main.c
-	gcc -c jogoUI_main.c
+ObjectFiles/motor_main.o: Motor/motor_main.c
+	gcc -c Motor/motor_main.c -o ObjectFiles/motor_main.o
+
+ObjectFiles/jogoUI_main.o: JogoUI/jogoUI_main.c
+	gcc -c JogoUI/jogoUI_main.c -o ObjectFiles/jogoUI_main.o
+
+ObjectFiles/bot.o: Bot/bot.c
+	gcc -c Bot/bot.c -o ObjectFiles/bot.o
 
 clean:
-	rm *.o  jogoUI motor bot
+	rm ObjectFiles/*.o jogoUI motor bot
 	clear

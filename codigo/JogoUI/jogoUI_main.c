@@ -1,7 +1,3 @@
-#include "jogoUI.h"
-#include "utils.h"
-#include "structs.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,6 +6,10 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+
+#include "jogoUI.h"
+#include "../Util/utils.h"
+#include "../Util/structs.h"
 
 int main(int argc, char* argv[]) {
     // Constantes

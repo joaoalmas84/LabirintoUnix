@@ -1,5 +1,3 @@
-#include "motor.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,6 +8,9 @@
 #include <errno.h>
 #include <pthread.h>
 #include <ctype.h>
+
+#include "motor.h"
+#include "../Util/utils.h"
 
 //*************************************************** COMANDOS *********************************************************
 
@@ -162,10 +163,9 @@ void mapaNivel1(char *map) {
     size_t bytesRead;
     char buffer[MAX_READ_SIZE];
 
-    FILE* file = fopen("mapa", "r");
+    FILE* file = fopen("Mapas/mapa", "r");
 
     if (file == NULL) {
-        // Não foi possível abrir o arquivo
         perror("\nErro ao abrir o arquivo\n");
         exit(1);
     } else {
@@ -181,10 +181,9 @@ void mapaNivel2(char *map) {
     size_t bytesRead;
     char buffer[MAX_READ_SIZE];
 
-    FILE* file = fopen("mapa2", "r");
+    FILE* file = fopen("Mapas/mapa2", "r");
 
     if (file == NULL) {
-        // Não foi possível abrir o arquivo
         perror("\nErro ao abrir o arquivo\n");
         exit(1);
     } else {
@@ -200,10 +199,9 @@ void mapaNivel3(char *map) {
     size_t bytesRead;
     char buffer[MAX_READ_SIZE];
 
-    FILE* file = fopen("mapa3", "r");
+    FILE* file = fopen("Mapas/mapa3", "r");
 
     if (file == NULL) {
-        // Não foi possível abrir o arquivo
         perror("\nErro ao abrir o arquivo\n");
         exit(1);
     } else {

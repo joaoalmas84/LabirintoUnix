@@ -1,7 +1,3 @@
-#include "motor.h"
-#include "utils.h"
-#include "structs.h"
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -10,6 +6,10 @@
 #include <fcntl.h>
 #include <pthread.h>
 #include <errno.h>
+
+#include "motor.h"
+#include "../Util/utils.h"
+#include "../Util/structs.h"
 
 int main(int argc, char *argv[]) {
     // Variáveis Constantes
